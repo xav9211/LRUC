@@ -15,12 +15,12 @@ public class LRUCache {
     }
 
     @GetMapping(value = "/cache/{id}")
-    public @ResponseBody Object get(@PathVariable int id) {
+    public @ResponseBody String get(@PathVariable int id) {
         return cache.get(id);
     }
 
-    @PostMapping(value="/cache/put/{id}", consumes = "application/json")
-    public @ResponseBody void put(@PathVariable int id, @RequestBody Map<String, Object> value) {
+    @PostMapping(value="/cache/{id}")
+    public @ResponseBody void put(@PathVariable int id, @RequestBody String value) {
         cache.put(id, value);
     }
 
