@@ -1,7 +1,10 @@
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -11,17 +14,17 @@ public class LRUCache {
 
     public static void main(String[] args) {
         SpringApplication.run(LRUCache.class, args);
-        cache = new Cache(5);
+        cache = new Cache(Integer.parseInt(args[0]));
     }
 
-    @GetMapping(value = "/cache/{id}")
-    public @ResponseBody String get(@PathVariable int id) {
-        return cache.get(id);
+    @GetMapping(value = "/cache/{key}")
+    public @ResponseBody String get(@PathVariable int key) {
+        return cache.get(key);
     }
 
-    @PostMapping(value="/cache/{id}")
-    public @ResponseBody void put(@PathVariable int id, @RequestBody String value) {
-        cache.put(id, value);
+    @PostMapping(value="/cache/{key}")
+    public @ResponseBody void put(@PathVariable int key, @RequestBody String value) {
+        cache.put(key, value);
     }
 
     @PutMapping(value = "/cache/capacity/{capacity}")
@@ -32,5 +35,17 @@ public class LRUCache {
     @DeleteMapping(value = "/cache/invalidate")
     public @ResponseBody void invalidate() {
         cache.invalidate();
+    }
+
+    @ExceptionHandler
+    public @ResponseBody String handleIllegalArgumentException(IllegalArgumentException e, HttpServletResponse response) throws IOException {
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return e.getMessage();
+    }
+
+    @ExceptionHandler
+    public @ResponseBody int handleItemNotFoundException(ItemNotFoundException e, HttpServletResponse response) throws IOException {
+        response.setStatus(HttpStatus.NOT_FOUND.value());
+        return -1;
     }
 }
