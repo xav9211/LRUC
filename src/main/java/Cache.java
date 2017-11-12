@@ -7,8 +7,6 @@ public class Cache {
 
     private static final Logger log = LoggerFactory.getLogger(Cache.class);
 
-    private static final int DEFAULT_VALUE = -1;
-
     private final Map<Integer, String> cacheMap = new LinkedHashMap<>();
 
     private int capacity;
@@ -25,7 +23,7 @@ public class Cache {
             log.error("Value with key: {} does not exist. Error code -1.", key);
             throw new ItemNotFoundException(String.valueOf(key));
         }
-        return cacheMap.getOrDefault(key, String.valueOf(DEFAULT_VALUE));
+        return cacheMap.get(key);
     }
 
     public void put(int key, String value) {

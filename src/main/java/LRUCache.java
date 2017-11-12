@@ -1,3 +1,5 @@
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -10,9 +12,16 @@ import java.util.Map;
 @RestController
 @EnableAutoConfiguration
 public class LRUCache {
+
+    private static final Logger log = LoggerFactory.getLogger(Cache.class);
+
     private static Cache cache;
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            log.error("Wrong number of parameters. Correct use: java -jar <jarFile.jar> <initialCacheCapacity>");
+            System.exit(1);
+        }
         SpringApplication.run(LRUCache.class, args);
         cache = new Cache(Integer.parseInt(args[0]));
     }
