@@ -28,7 +28,7 @@ jar {
 sourceSets {
     test {
         java {
-            srcDirs = ["test/java"]
+            srcDirs = ["src/test/java"]
         }
     }
 }

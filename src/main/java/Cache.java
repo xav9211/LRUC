@@ -1,5 +1,6 @@
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,19 +18,20 @@ public class Cache {
     }
 
     public String get(int key) {
+        String lastGetValue;
         if (cacheMap.containsKey(key)) {
             log.info("Get value for key: {}", key);
+            lastGetValue = cacheMap.get(key);
+            putAsLastUsedItem(key, lastGetValue);
         } else {
             log.error("Value with key: {} does not exist. Error code -1.", key);
             throw new ItemNotFoundException(String.valueOf(key));
         }
-        return cacheMap.get(key);
+        return lastGetValue;
     }
 
     public void put(int key, String value) {
-        //Remove of existing item to put it on the end map
-        cacheMap.remove(key);
-        cacheMap.put(key, value);
+        putAsLastUsedItem(key, value);
         removeLeastRecentlyUsedEntries();
         log.info("Put new item to cache with key: {} and value size: {}", key, value.length());
     }
@@ -62,5 +64,11 @@ public class Cache {
 
     private boolean isCacheOverflowed() {
         return cacheMap.size() > capacity;
+    }
+
+    private void putAsLastUsedItem(int key, String value) {
+        //Remove of existing item to put it on the end map
+        cacheMap.remove(key);
+        cacheMap.put(key, value);
     }
 }
