@@ -20,7 +20,6 @@ public class LRUCache {
     //Used for integration tests
     private static int capacity = 5;
 
-    @Autowired
     public LRUCache() {
         cache = new Cache(capacity);
     }
@@ -49,7 +48,7 @@ public class LRUCache {
         cache.changeCapacity(capacity);
     }
 
-    @DeleteMapping(value = "/cache/invalidate")
+    @DeleteMapping(value = "/cache")
     public @ResponseBody void invalidate() {
         cache.invalidate();
     }

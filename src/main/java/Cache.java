@@ -1,10 +1,9 @@
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Cache {
+class Cache {
 
     private static final Logger log = LoggerFactory.getLogger(Cache.class);
 
@@ -12,12 +11,12 @@ public class Cache {
 
     private int capacity;
 
-    public Cache(int capacity) {
+    Cache(int capacity) {
         log.info("Cache initialized");
         changeCapacity(capacity);
     }
 
-    public String get(int key) {
+    String get(int key) {
         String lastGetValue;
         if (cacheMap.containsKey(key)) {
             log.info("Get value for key: {}", key);
@@ -30,13 +29,13 @@ public class Cache {
         return lastGetValue;
     }
 
-    public void put(int key, String value) {
+    void put(int key, String value) {
         putAsLastUsedItem(key, value);
         removeLeastRecentlyUsedEntries();
         log.info("Put new item to cache with key: {} and value size: {}", key, value.length());
     }
 
-    public void changeCapacity(int capacity) {
+    void changeCapacity(int capacity) {
         if (capacity > 0) {
             this.capacity = capacity;
             log.info("Capacity set to: {}", capacity);
@@ -47,7 +46,7 @@ public class Cache {
         removeLeastRecentlyUsedEntries();
     }
 
-    public void invalidate() {
+    void invalidate() {
         cacheMap.clear();
         log.info("Cleared whole cache memory");
     }

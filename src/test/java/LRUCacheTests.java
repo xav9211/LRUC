@@ -103,7 +103,7 @@ public class LRUCacheTests {
         mockMvc.perform(get("/cache/" + thirdId).accept(contentType)).andExpect(status().isOk())
                 .andExpect(content().string(cacheMap.get(thirdId)));
 
-        mockMvc.perform(delete("/cache/invalidate")).andExpect(status().isOk());
+        mockMvc.perform(delete("/cache")).andExpect(status().isOk());
 
         mockMvc.perform(get("/cache/" + firstId)).andExpect(status().isNotFound());
         mockMvc.perform(get("/cache/" + secondId)).andExpect(status().isNotFound());
