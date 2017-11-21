@@ -26,7 +26,7 @@ Now we need build project with:
 and run it by command:
 
 ````
-java -jar ./build/libs/LRUC-1.0-SNAPSHOT.jar <initial capacity>
+java -jar ./build/libs/LRUC-1.0-SNAPSHOT.jar
 ````
 
 #API
@@ -80,4 +80,6 @@ Project contains:
 
 - tests classes:
     - CacheTests for unit tests
-    - LRUCacheTests for integration tests 
+    - LRUCacheTests for integration tests
+    
+Initial value of capacity is set in config.properties file, it must be greater than 0.
